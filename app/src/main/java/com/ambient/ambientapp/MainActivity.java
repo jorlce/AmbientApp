@@ -1,6 +1,8 @@
 package com.ambient.ambientapp;
 
-import android.app.ListFragment;
+import android.app.FragmentManager;
+import android.content.Intent;
+import android.support.v4.app.ListFragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -45,6 +48,25 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
+   /* *//** This is a callback that the list fragment (Fragment A)
+     calls when a list item is selected *//*
+    public void OnSensorSelected(int position) {
+        DisplayFragment displayFrag = (DisplayFragment) getFragmentManager()
+                .findFragmentById(R.id.display_frag);
+        if (displayFrag == null) {
+            // DisplayFragment (Fragment B) is not in the layout (handset layout),
+            // so start DisplayActivity (Activity B)
+            // and pass it the info about the selected item
+            Intent intent = new Intent(this, DisplayActivity.class);
+            intent.putExtra("position", position);
+            startActivity(intent);
+        } else {
+            // DisplayFragment (Fragment B) is in the layout (tablet layout),
+            // so tell the fragment to update
+            displayFrag.updateContent(position);
+        }
+    }*/
 
     @Override
     public void onBackPressed() {
@@ -87,14 +109,18 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
         FragmentTransaction ft = null;
         ListFragment lt_fragment = null;
+        FragmentManager fm = null;
 
         if (id == R.id.nav_sensor) {
-            fragment = new FrameSensor();
+            Intent intent = new Intent(MainActivity.this, ListSensorsActivity.class);
+            Log.d("MainActivity","Antes cargar ListSensorActivity");
+            startActivity(intent);
+           /*fragment = new ListFrameSensors();
             isFragmentTransaction = true;
             ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.content_frame, fragment);
             ft.addToBackStack(null);
-            ft.commit();
+            ft.commit();*/
         } else if (id == R.id.nav_localizacion) {
             fragment = new FrameLocalizacion();
             isFragmentTransaction = true;
@@ -110,7 +136,7 @@ public class MainActivity extends AppCompatActivity
             ft.addToBackStack(null);
             ft.commit();
         } else if (id == R.id.nav_manage) {
-            Log.i("NavigationView", "Pulsada opción settings");
+            Log.i("NavigationView", "Pulsada opción gestión");
         } else if (id == R.id.nav_share) {
             Log.i("NavigationView", "Pulsada opción compartir");
         } else if (id == R.id.nav_send) {

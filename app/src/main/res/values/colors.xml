@@ -3,8 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorBlueOil">#309f9f</color>
+    <color name="colorBlueOil2">#727989</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorValues">#ffcc40</color>
+    <color name="colorOk">#27ea41</color>
+    <color name="colorWarn">#ffcc40</color>
+    <color name="colorAlarm">#ff4040</color>
     <color name="white">#ffffff</color>
-    <color name="semitransparent">#40000000</color>
+    <color name="black">#000000</color>
 </resources>

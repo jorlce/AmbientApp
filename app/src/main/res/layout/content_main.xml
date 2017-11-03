@@ -19,12 +19,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-      <!--  <TextView
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textAlignment="center"
             android:textSize="20dp"
             android:textColor="@color/colorPrimary"
-            android:text="@string/bienvenida"/>-->
+            android:text="@string/bienvenida"/>
     </FrameLayout>
 </RelativeLayout>

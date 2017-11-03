@@ -2,12 +2,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ambient.ambientapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_start"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+ <!--       <activity
+            android:name=".LoginActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>-->
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -18,6 +29,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ShowSensorActivity"
+            android:label="@string/title_activity_show_sensor"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ListSensorsActivity"
+            android:label="@string/title_activity_list_sensors"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

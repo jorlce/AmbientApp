@@ -7,6 +7,10 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="Sensor" />
         <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Gestión" />
+        <item
             android:id="@+id/nav_localizacion"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Localización" />
@@ -14,10 +18,7 @@
             android:id="@+id/nav_estadistica"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Estadística" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Gestión" />
+
     </group>
 
     <item android:title="Communicate">

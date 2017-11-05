@@ -2,23 +2,26 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground">
 
     <TextView
         android:id="@+id/sensorLabel"
-        android:textSize="16dp"
+        android:textSize="18dp"
         android:width="0px"
         android:textColor="@color/colorBlueOil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
+        android:background="@color/celdaSensor"
         android:layout_margin="2dp"/>
 
     <TextView
         android:id="@+id/sensorLatitud"
-        android:textSize="14dp"
+        android:textSize="15dp"
         android:width="0px"
         android:textColor="@color/colorBlueOil"
+        android:background="@color/celdaSensor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/sensorLabel"
@@ -26,14 +29,17 @@
 
     <TextView
         android:id="@+id/sensorLongitud"
-        android:textSize="14dp"
+        android:textSize="15dp"
         android:width="0px"
         android:textColor="@color/colorBlueOil"
+        android:background="@color/celdaSensor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sensorLabel"
-        android:layout_alignParentRight="true"
-
+        android:layout_below="@+id/sensorLatitud"
         android:layout_margin="2dp"/>
+        <!--
+        android:layout_alignParentRight="true"-->
+
+
 
 </RelativeLayout>

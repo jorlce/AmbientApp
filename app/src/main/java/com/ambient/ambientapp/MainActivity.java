@@ -1,6 +1,7 @@
 package com.ambient.ambientapp;
 
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.ListFragment;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -74,7 +76,19 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Really Exit?")
+                    .setMessage("Are you sure you want to exit?")
+                    .setNegativeButton(android.R.string.no, null)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            MainActivity.super.onBackPressed();
+                        }
+                    }).create().show();
+
+            //super.onBackPressed();
         }
     }
 
@@ -94,6 +108,25 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (id == R.id.action_logout) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Cierre de sesión")
+                    .setMessage("¿Quiere cerrar la sesión?")
+                    .setNegativeButton(android.R.string.no, null)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            Log.d("MainActivity","Logout");
+                            startActivity(intent);
+
+                        }
+                    }).create().show();
             return true;
         }
 

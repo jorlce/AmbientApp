@@ -1,5 +1,7 @@
 package com.ambient.ambientapp;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -9,9 +11,12 @@ import android.os.Bundle;
 
 import android.support.design.widget.Snackbar;
 
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -27,7 +32,7 @@ public class ShowSensorActivity extends AppCompatActivity {
     private String sensorlabel, sensorLatitud, sensorLongitud;
     private SensorJSON jdao;
     TableLayout tableSensor;
-    TableRow rowSensor;
+    //TableRow rowSensor;
     TextView textSensor;
 
     @Override
@@ -62,28 +67,68 @@ public class ShowSensorActivity extends AppCompatActivity {
 
     }
 
-    @SuppressWarnings({ "rawtypes" })
-    public void addData(String campo, String valor) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        if (id == R.id.action_logout) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Cierre de sesión")
+                    .setMessage("¿Quiere cerrar la sesión?")
+                    .setNegativeButton(android.R.string.no, null)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            Intent intent = new Intent(ShowSensorActivity.this, LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            Log.d("MainActivity", "Logout");
+                            startActivity(intent);
+                        }
+                    }).create().show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings({ "rawtypes" })
+    public void addData(String campo, String valor, int position) {
+
+        Log.d("Show.addData", campo + " " + String.valueOf(position));
         float fvalor;
         /** Create a TableRow dynamically **/
-        rowSensor = new TableRow(this);
+        TableRow rowSensor = new TableRow(this);
 
         /** Creating a TextView to add to the row **/
         TextView textCampo = new TextView(this);
         textCampo.setText(campo);
-        textCampo.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT));
+        textCampo.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                TableRow.LayoutParams.WRAP_CONTENT));
         textCampo.setPadding(5, 5, 5, 5);
         textCampo.setBackgroundResource(R.drawable.cell_shape);
         textCampo.setTextColor(getResources().getColor(R.color.white));
-        rowSensor.addView(textCampo); // Adding textView to tablerow.
+        rowSensor.addView(textCampo); //
+
 
         /** Creating a TextView to add to the row **/
         TextView textValor = new TextView(this);
         textValor.setText(valor);
-        textValor.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT));
+        textValor.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                TableRow.LayoutParams.WRAP_CONTENT));
         textValor.setPadding(5, 5, 5, 5);
         textValor.setBackgroundResource(R.drawable.cell_shape);
         switch (campo) {
@@ -120,88 +165,33 @@ public class ShowSensorActivity extends AppCompatActivity {
 
         rowSensor.addView(textValor); // Adding textView to tablerow.
 
-
+        // Add the TableRow to the TableLayout
+        tableSensor.addView(rowSensor, position, new TableLayout.LayoutParams(
+                TableLayout.LayoutParams.WRAP_CONTENT,
+                TableLayout.LayoutParams.WRAP_CONTENT));
 
     }
 
 
     public void addRow(Medidor unMedidor) {
 
-        addData("Sensor",sensorlabel);
-        addData("Latitud",sensorLatitud);
-        addData("Longitud",sensorLongitud);
-        addData("Temperatura", String.valueOf(unMedidor.getTemperatura()) );
-        addData("Humedad", String.valueOf(unMedidor.getHumedad()));
-        addData("CO", String.valueOf(unMedidor.getNivelCO()));
-        addData("CO2",String.valueOf(unMedidor.getNivelCO2()));
-        addData("Metano",String.valueOf(unMedidor.getNivelMetano()));
-        addData("Ultima Lectura",String.valueOf(unMedidor.getTimelectura()));
-
-        /** Create a TableRow dynamically **/
-        /*rowSensor = new TableRow(this);
-
-        *//** Creating a TextView to add to the row **//*
-        textSensor = new TextView(this);
-        textSensor.setText("Sensor");
-        textSensor.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-               LayoutParams.WRAP_CONTENT));
-        textSensor.setPadding(5, 5, 5, 5);
-        textSensor.setBackgroundResource(R.drawable.cell_shape);
-        textSensor.setTextColor(getResources().getColor(R.color.white));
-       // LinearLayout Ll = new LinearLayout(this);
-        *//*LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
-                LayoutParams.WRAP_CONTENT);
-        params.setMargins(5, 5, 5, 5);*//*
-        //Ll.setPadding(10, 5, 5, 5);
-        //Ll.addView(label,params);
-        rowSensor.addView(textSensor); // Adding textView to tablerow.
-
-        TextView textLat = new TextView(this);
-        textLat.setText("Latitud");
-        textLat.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT));
-        textLat.setPadding(5, 5, 5, 5);
-        textLat.setBackgroundResource(R.drawable.cell_shape);
-        textLat.setTextColor(getResources().getColor(R.color.white));
-        rowSensor.addView(textLat); // Adding textView to tablerow.
-
-        TextView textLong = new TextView(this);
-        textLong.setText("Longitud");
-        textLong.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT));
-        textLong.setPadding(5, 5, 5, 5);
-        textLong.setBackgroundResource(R.drawable.cell_shape);
-        textLong.setTextColor(getResources().getColor(R.color.white));
-        rowSensor.addView(textLong); // Adding textView to tablerow.
-
-        TextView textCO = new TextView(this);
-        textCO.setText("CO");
-        textCO.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT));
-        textCO.setPadding(5, 5, 5, 5);
-        textCO.setBackgroundResource(R.drawable.cell_shape);
-        textCO.setTextColor(getResources().getColor(R.color.white));
-        rowSensor.addView(textCO); // Adding textView to tablerow.
-
-        TextView textCO2 = new TextView(this);
-        textCO2.setText("CO2");
-        textCO2.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT));
-        textCO2.setPadding(5, 5, 5, 5);
-        textCO2.setBackgroundResource(R.drawable.cell_shape);
-        textCO2.setTextColor(getResources().getColor(R.color.white));
-        rowSensor.addView(textCO2); // Adding textView to tablerow.
-
-        TextView textMetano = new TextView(this);
-        textMetano.setText("Metano");
-        textMetano.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT));
-        textMetano.setPadding(5, 5, 5, 5);
-        textMetano.setBackgroundResource(R.drawable.cell_shape);
-        textMetano.setTextColor(getResources().getColor(R.color.white));
-        rowSensor.addView(textMetano); // Adding textView to tablerow.*/
-
-
+        /*// TEXTVIEW
+        if(tv.getParent()!=null)
+            ((ViewGroup)tv.getParent()).removeView(tv); // <- fix
+        layout.addView(tv); //  <==========  ERROR IN THIS LINE DURING 2ND RUN
+        // EDITTEXT*/
+        int pos = 0;
+        Log.d("Show.addRow",unMedidor.getSensorlabel());
+        addData("Sensor",sensorlabel, pos++);
+        addData("Latitud",sensorLatitud, pos++);
+        addData("Longitud",sensorLongitud, pos++);
+        addData("Temperatura", String.valueOf(unMedidor.getTemperatura()),pos++);
+        addData("Humedad", String.valueOf(unMedidor.getHumedad()), pos++);
+        addData("CO", String.valueOf(unMedidor.getNivelCO()), pos++);
+        addData("CO2",String.valueOf(unMedidor.getNivelCO2()), pos++);
+        addData("Metano",String.valueOf(unMedidor.getNivelMetano()), pos++);
+        Log.d("Show.addRow",unMedidor.getTimelectura());
+        addData("Ultima Lectura",unMedidor.getTimelectura(), pos);
 
     }
 
@@ -209,6 +199,7 @@ public class ShowSensorActivity extends AppCompatActivity {
     private class HttpRequestTask extends AsyncTask<Void, Void, String> {
 
         //private final ListSensorAdapter mAdapter;
+        private final ProgressDialog dialog = new ProgressDialog(ShowSensorActivity.this);
 
 
         public HttpRequestTask() {
@@ -234,6 +225,12 @@ public class ShowSensorActivity extends AppCompatActivity {
         }
 
         @Override
+        protected void onPreExecute(){
+            this.dialog.setMessage("Recibiendo datos...");
+            this.dialog.show();
+        }
+
+        @Override
         protected void onPostExecute(String responseString) {
             Medidor unMedidor = null;
 
@@ -241,6 +238,11 @@ public class ShowSensorActivity extends AppCompatActivity {
                 Log.d("ListSensorsActivity", "Mapping the result");
                 Log.d("ListSensorsActivity",responseString);
                 unMedidor = jdao.findSensorMeasure(responseString);
+
+                if (this.dialog.isShowing()) { // if dialog box showing = true
+                    this.dialog.dismiss(); // dismiss it
+                }
+
                 if (unMedidor != null) {
                     Log.d("Prffffff", unMedidor.getSensorlabel());
                     addRow(unMedidor);

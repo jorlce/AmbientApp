@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -24,12 +25,22 @@ import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ShowSensorActivity extends AppCompatActivity {
 
-    private String sensorlabel, sensorLatitud, sensorLongitud;
+    private String sensorlabel, sensorLatitud, sensorLongitud, sensorFrecuencia;
     private SensorJSON jdao;
     TableLayout tableSensor;
     //TableRow rowSensor;
@@ -51,6 +62,7 @@ public class ShowSensorActivity extends AppCompatActivity {
         sensorlabel = intent.getStringExtra("sensor");
         sensorLatitud = intent.getStringExtra("latitud");
         sensorLongitud = intent.getStringExtra("longitud");
+        sensorFrecuencia = intent.getStringExtra("frecuencia");
 
         //Calling Endpoint to receive sensor data
         HttpRequestTask httprequesttask = new HttpRequestTask();
@@ -70,9 +82,45 @@ public class ShowSensorActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_show_sensor, menu);
         return true;
     }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        switch (sensorFrecuencia){
+            case "1": {
+                MenuItem menufreq = menu.findItem(R.id.action_freq);
+                SubMenu subMenu = menufreq.getSubMenu();
+                MenuItem subItem1 = subMenu.findItem(R.id.submenu_freq1);
+                subItem1.setChecked(true);
+                break;
+            }
+            case "2": {
+                MenuItem menufreq = menu.findItem(R.id.action_freq);
+                SubMenu subMenu = menufreq.getSubMenu();
+                MenuItem subItem1 = subMenu.findItem(R.id.submenu_freq2);
+                subItem1.setChecked(true);
+                break;
+            }
+            case "3": {
+                MenuItem menufreq = menu.findItem(R.id.action_freq);
+                SubMenu subMenu = menufreq.getSubMenu();
+                MenuItem subItem1 = subMenu.findItem(R.id.submenu_freq3);
+                subItem1.setChecked(true);
+                break;
+            }
+            case "4": {
+                MenuItem menufreq = menu.findItem(R.id.action_freq);
+                SubMenu subMenu = menufreq.getSubMenu();
+                MenuItem subItem1 = subMenu.findItem(R.id.submenu_freq4);
+                subItem1.setChecked(true);
+                break;
+            }
+        }
+        return true;
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -80,11 +128,57 @@ public class ShowSensorActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        int freq = 0;
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+       /* if (id == R.id.action_settings) {
+            return true;
+        }*/
+
+        if (id == R.id.submenu_freq1) {
+            if (item.isChecked()) item.setChecked(false);
+            else item.setChecked(true);
+            sensorFrecuencia = "1";
+            freq = 1;
+            //Calling Endpoint to update sensor frequency data
+            HttpRequestFreq httpRequestFreq = new HttpRequestFreq(freq);
+            httpRequestFreq.execute();
             return true;
         }
+
+        if (id == R.id.submenu_freq2) {
+            if (item.isChecked()) item.setChecked(false);
+            else item.setChecked(true);
+            sensorFrecuencia = "2";
+            freq = 2;
+            //Calling Endpoint to update sensor frequency data
+            HttpRequestFreq httpRequestFreq = new HttpRequestFreq(freq);
+            httpRequestFreq.execute();
+            return true;
+        }
+
+        if (id == R.id.submenu_freq3) {
+            if (item.isChecked()) item.setChecked(false);
+            else item.setChecked(true);
+            sensorFrecuencia = "3";
+            freq = 3;
+            //Calling Endpoint to update sensor frequency data
+            HttpRequestFreq httpRequestFreq = new HttpRequestFreq(freq);
+            httpRequestFreq.execute();
+            return true;
+        }
+
+        if (id == R.id.submenu_freq4) {
+            if (item.isChecked()) item.setChecked(false);
+            else item.setChecked(true);
+            sensorFrecuencia = "4";
+            freq = 4;
+            //Calling Endpoint to update sensor frequency data
+            HttpRequestFreq httpRequestFreq = new HttpRequestFreq(freq);
+            httpRequestFreq.execute();
+            return true;
+        }
+
         if (id == R.id.action_logout) {
             new AlertDialog.Builder(this)
                     .setTitle("Cierre de sesión")
@@ -96,7 +190,7 @@ public class ShowSensorActivity extends AppCompatActivity {
                             Intent intent = new Intent(ShowSensorActivity.this, LoginActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            Log.d("MainActivity", "Logout");
+                            Log.d("WelcomeActivity", "Logout");
                             startActivity(intent);
                         }
                     }).create().show();
@@ -195,6 +289,55 @@ public class ShowSensorActivity extends AppCompatActivity {
 
     }
 
+    private class HttpRequestFreq extends AsyncTask<String, Void, String> {
+
+        private SensorData unSensor;
+
+        public HttpRequestFreq(int freq) {
+            this.unSensor = new SensorData();
+            unSensor.setId(sensorlabel);
+            unSensor.setLatitud(Float.parseFloat(sensorLatitud));
+            unSensor.setLongitud(Float.parseFloat(sensorLongitud));
+            unSensor.setFrecuencia(freq);
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String requestJson = "";
+            String responseString = "";
+
+            try {
+                requestJson = jdao.addSensorData(unSensor);
+                String url = "http://95.19.30.217:8080/ambientService/cambiafreq";
+                RestTemplate restTemplate = new RestTemplate();
+
+                List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
+                messageConverters.add(new FormHttpMessageConverter());
+                messageConverters.add(new StringHttpMessageConverter());
+               // messageConverters.add(new MappingJacksonHttpMessageConverter());
+                restTemplate.setMessageConverters(messageConverters);
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
+
+                responseString = restTemplate.postForObject(url, entity, String.class);
+                Log.d("ListSensorsActivity",responseString);
+                return responseString;
+            } catch (Exception e) {
+                Log.e("ListFrameSensors", e.getMessage(), e);
+            }
+            return responseString;
+        }
+
+        /*@Override
+        protected void onPostExecute(String responseString) {
+            // Haríamos un refresh de la actividad actual.
+            finish();
+            startActivity(getIntent());
+        }*/
+    }
 
     private class HttpRequestTask extends AsyncTask<Void, Void, String> {
 

@@ -13,7 +13,18 @@ public class SensorData {
 
 	@JsonProperty("longitud")
 	protected float longitud;
-	
+
+	@JsonProperty("frecuencia")
+	protected int frecuencia;
+
+	public String getSensorlabel() {
+		return sensorlabel;
+	}
+
+	public void setId(String sensorlabel) {
+		this.sensorlabel = sensorlabel;
+	}
+
 	public float getLatitud() {
 		return latitud;
 	}
@@ -29,15 +40,20 @@ public class SensorData {
 	public void setLongitud(float longitud) {
 		this.longitud = longitud;
 	}
-	
-	
-	public String getSensorlabel() {
-		return sensorlabel;
+
+	public int getFrecuencia() {
+		return frecuencia;
 	}
 
-	public void setId(String sensorlabel) {
-		this.sensorlabel = sensorlabel;
+	public void setFrecuencia(int frecuencia) {
+		this.frecuencia = frecuencia;
 	}
+
+
+
+	
+	
+
 
 
 }

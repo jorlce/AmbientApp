@@ -342,7 +342,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             switch (responseString) {
                 case "ACCEPTED":
                     Log.d("Login", "Usuario valido");
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
+                    intent.putExtra("usuario",mUser);
                     startActivity(intent);
                     break;
                 default:
@@ -354,7 +355,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
            /* if (success) {
                // finish();
                 Log.d("Login","Usuario valido");
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
                 startActivity(intent);
 
             } else {

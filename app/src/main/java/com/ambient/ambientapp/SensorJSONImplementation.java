@@ -100,6 +100,9 @@ public class SensorJSONImplementation implements SensorJSON {
 		} catch (IOException e) {
 			Log.getStackTraceString(e);
 		}
+		if (listaSensores.size()>0) {
+			Log.d("Jdao", "Lista tiene objetos");
+		}
 		return listaSensores;
 	}
 	

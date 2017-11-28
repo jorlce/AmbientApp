@@ -183,7 +183,8 @@ public class ListSensorsActivity extends AppCompatActivity {
                     intent.putExtra("sensor", sensor.getSensorlabel());
                     intent.putExtra("latitud", String.valueOf(sensor.getLatitud()));
                     intent.putExtra("longitud", String.valueOf(sensor.getLongitud()));
-                    Log.d("MainActivity","Antes cargar ListSensorActivity");
+                    intent.putExtra("frecuencia", String.valueOf(sensor.getFrecuencia()));
+                    Log.d("WelcomeActivity","Antes cargar ListSensorActivity");
                     startActivity(intent);
                     //Toast.makeText(context, tvName.getText(), Toast.LENGTH_SHORT).show();
                 }

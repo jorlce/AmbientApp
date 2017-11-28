@@ -30,7 +30,7 @@ public class HttpRequestTask extends AsyncTask<Void, Void, String> {
             String responseString = restTemplate.getForObject(url,String.class);
             return responseString;
         } catch (Exception e) {
-            Log.e("MainActivity", e.getMessage(), e);
+            Log.e("WelcomeActivity", e.getMessage(), e);
         }
 
         return null;

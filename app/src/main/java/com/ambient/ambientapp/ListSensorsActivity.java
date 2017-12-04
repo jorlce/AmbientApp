@@ -61,17 +61,6 @@ public class ListSensorsActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         mylistSensor = new ArrayList<SensorData>();
 
-        //Codigo para implementar la ListView
-       /* final ListSensorAdapter listSensorAdapter = new ListSensorAdapter(this, new ArrayList<SensorData>());
-        ListView listview = (ListView) findViewById(R.id.listview_sensors);
-
-        try {
-            listview.setAdapter(listSensorAdapter);
-        } catch (NullPointerException e) {
-            Log.e("ListSensorsActivity", "Asignando adapter a listview");
-        }*/
-
-        //Fin de código para ListView
 
         // use a linear layout manager
         //mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -82,14 +71,6 @@ public class ListSensorsActivity extends AppCompatActivity {
         mRecyclerView.addItemDecoration(itemDecoration);
 
 
-       /* // specify an adapter (see also next example)
-        mAdapter = new MyRecyclerAdapter(this, mylistSensor);
-        mRecyclerView.setAdapter(mAdapter);*/
-
-        // Llamada al Endpoint con ListView
-       /* HttpRequestTask httprequesttask = new HttpRequestTask(listSensorAdapter);
-        httprequesttask.execute();
-*/
         //Llamada al Endpoint con RecyclerView
         HttpRequestTask httprequesttask = new HttpRequestTask();
         httprequesttask.execute();
@@ -111,9 +92,7 @@ public class ListSensorsActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
         if (id == R.id.action_logout) {
             new AlertDialog.Builder(this)
                     .setTitle("Cierre de sesión")
@@ -239,16 +218,6 @@ public class ListSensorsActivity extends AppCompatActivity {
 
         private LayoutInflater mLayoutInflater;
 
-        /*public MyArrayAdapter(Context context, int textViewResourceId,
-                                  List<String> objects) {
-            super(context, textViewResourceId, objects);
-
-            this.context = context;
-            this.values = objects;
-            for (int i = 0; i < values.size(); ++i) {
-                values.add(values.get(i));
-            }
-        }*/
 
         public ListSensorAdapter(Context context, List<SensorData> objects) {
         //public ListSensorAdapter(Context context) {
@@ -314,30 +283,6 @@ public class ListSensorsActivity extends AppCompatActivity {
 
 
 
-          /*  LinearLayout itemView;
-            if (convertView == null) {
-                itemView = (LinearLayout) mLayoutInflater.inflate(
-                        R.layout.fragment_list_sensors, parent, false);
-
-            } else {
-                itemView = (LinearLayout) convertView;
-            }
-
-            LayoutInflater inflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View rowView = inflater.inflate(R.layout.rowlayout, parent, false);
-            TextView textView = (TextView) rowView.findViewById(R.id.label);
-            ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-            textView.setText(values[position]);
-            // change the icon for Windows and iPhone
-            String s = values[position];
-            if (s.startsWith("iPhone")) {
-                imageView.setImageResource(R.drawable.no);
-            } else {
-                imageView.setImageResource(R.drawable.ok);
-            }
-
-            return rowView;*/
         }
 
         @Override

@@ -36,14 +36,6 @@ public class WelcomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-  /*      FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
 
         // Receiving parameter having key value as 'sensor'
         Intent intent = getIntent();
@@ -123,11 +115,6 @@ public class WelcomeActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         if (id == R.id.action_logout) {
             new AlertDialog.Builder(this)
                     .setTitle("Cierre de sesión")
@@ -165,32 +152,6 @@ public class WelcomeActivity extends AppCompatActivity
             Intent intent = new Intent(WelcomeActivity.this, ListSensorsActivity.class);
             Log.d("WelcomeActivity","Antes cargar ListSensorActivity");
             startActivity(intent);
-           /*fragment = new ListFrameSensors();
-            isFragmentTransaction = true;
-            ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.content_frame, fragment);
-            ft.addToBackStack(null);
-            ft.commit();*/
-        } else if (id == R.id.nav_localizacion) {
-            fragment = new FrameLocalizacion();
-            isFragmentTransaction = true;
-            ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.content_frame, fragment);
-            ft.addToBackStack(null);
-            ft.commit();
-        } else if (id == R.id.nav_estadistica) {
-            fragment = new FrameEstadistica();
-            isFragmentTransaction = true;
-            ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.content_frame, fragment);
-            ft.addToBackStack(null);
-            ft.commit();
-        } else if (id == R.id.nav_manage) {
-            Log.i("NavigationView", "Pulsada opción gestión");
-        } else if (id == R.id.nav_share) {
-            Log.i("NavigationView", "Pulsada opción compartir");
-        } else if (id == R.id.nav_send) {
-            Log.i("NavigationView", "Pulsada opción contacto");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -43,7 +43,7 @@ public class ShowSensorActivity extends AppCompatActivity {
     private String sensorlabel, sensorLatitud, sensorLongitud, sensorFrecuencia;
     private SensorJSON jdao;
     TableLayout tableSensor;
-    //TableRow rowSensor;
+
     TextView textSensor;
 
     @Override
@@ -67,16 +67,6 @@ public class ShowSensorActivity extends AppCompatActivity {
         //Calling Endpoint to receive sensor data
         HttpRequestTask httprequesttask = new HttpRequestTask();
         httprequesttask.execute();
-
-           /* if (getResources().getConfiguration().orientation
-                    == Configuration.ORIENTATION_LANDSCAPE) {
-                // If the screen is now in landscape mode, we can show the
-                // dialog in-line with the list so we don't need this activity.
-                finish();
-                return;
-            }*/
-
-
     }
 
     @Override
@@ -309,7 +299,7 @@ public class ShowSensorActivity extends AppCompatActivity {
 
             try {
                 requestJson = jdao.addSensorData(unSensor);
-                String url = "http://95.19.30.217:8080/ambientService/cambiafreq";
+                String url = "http://jorlce.ddns.net:8080/ambientService/cambiafreq";
                 RestTemplate restTemplate = new RestTemplate();
 
                 List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
@@ -354,7 +344,7 @@ public class ShowSensorActivity extends AppCompatActivity {
         protected String doInBackground(Void... params) {
 
             try {
-                String url = "http://95.19.30.217:8080/ambientService/consultSensor/" + sensorlabel;
+                String url = "http://jorlce.ddns.net:8080/ambientService/consultSensor/" + sensorlabel;
                 RestTemplate restTemplate = new RestTemplate();
                 restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
                 String responseString = restTemplate.getForObject(url, String.class);

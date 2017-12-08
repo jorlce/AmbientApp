@@ -91,7 +91,6 @@ public class ListSensorsActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
 
         if (id == R.id.action_logout) {
             new AlertDialog.Builder(this)
@@ -120,7 +119,7 @@ public class ListSensorsActivity extends AppCompatActivity {
         // Store the context for easy access
         private Context mContext;
 
-        // Pass in the contact array into the constructor
+        // Pass in the sensors array into the constructor
         public MyRecyclerAdapter(Context context, List<SensorData> listSensorData) {
             mlistSensorData = listSensorData;
             mContext = context;
@@ -165,7 +164,7 @@ public class ListSensorsActivity extends AppCompatActivity {
                     intent.putExtra("frecuencia", String.valueOf(sensor.getFrecuencia()));
                     Log.d("WelcomeActivity","Antes cargar ListSensorActivity");
                     startActivity(intent);
-                    //Toast.makeText(context, tvName.getText(), Toast.LENGTH_SHORT).show();
+
                 }
             }
         }
@@ -178,7 +177,7 @@ public class ListSensorsActivity extends AppCompatActivity {
 
             // Inflate the custom layout
             View itemView = inflater.inflate(R.layout.sensorsdetails, parent, false);
-            //View itemView = inflater.inflate(R.layout.sensorsdetails, null, false);
+
 
             // Return a new holder instance
             ViewHolder viewHolder = new ViewHolder(itemView);
@@ -208,101 +207,6 @@ public class ListSensorsActivity extends AppCompatActivity {
 
     }
 
-    private class ListSensorAdapter extends BaseAdapter {
-
-        //HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
-        private Context mContext;
-        //private final String[] values;
-        //private List<SensorData> listSensorData = new ArrayList<SensorData>();
-        private List<SensorData> listSensorData;
-
-        private LayoutInflater mLayoutInflater;
-
-
-        public ListSensorAdapter(Context context, List<SensorData> objects) {
-        //public ListSensorAdapter(Context context) {
-            mContext = context;
-            listSensorData = objects;
-            mLayoutInflater = (LayoutInflater) mContext
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //mLayoutInflater = LayoutInflater.from(context);
-        }
-
-        public void setData(List<SensorData> data) {
-            if (listSensorData != null) {
-                listSensorData.clear();
-            } else {
-                listSensorData = new ArrayList<SensorData>();
-            }
-            if (data != null) {
-                Log.d("ListSensorData", "Asignando valores");
-                listSensorData.addAll(data);
-            }
-            notifyDataSetChanged();
-        }
-
-        public void addItem(SensorData sensor) {
-            listSensorData.add(sensor);
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public View getView(int pos, View convertView, ViewGroup parent) {
-
-            RelativeLayout itemView;
-            if (convertView == null) {
-                itemView = (RelativeLayout) mLayoutInflater.inflate(
-                        R.layout.sensorsdetails, parent, false);
-
-                Log.d("ListSensorData.getView", "Convertview null");
-
-            } else {
-                itemView = (RelativeLayout) convertView;
-                Log.d("ListSensorData.getView", "Convertview not null");
-            }
-
-            SensorData sensor = (SensorData) getItem(pos);
-           /* if (convertView == null) {
-                convertView = mLayoutInflater.inflate(R.layout.sensorsdetails, null);
-            }*/
-            TextView sensorLabel = (TextView) itemView.findViewById(R.id.sensorLabel);
-            Log.d("ListSensorData.getView", sensor.getSensorlabel());
-            sensorLabel.setText(sensor.getSensorlabel());
-
-            TextView sensorLatitud = (TextView) itemView.findViewById(R.id.sensorLatitud);
-            Log.d("ListSensorData.getView", String.valueOf(sensor.getLatitud()));
-            sensorLatitud.setText(String.valueOf(sensor.getLatitud()));
-
-            TextView sensorLongitud = (TextView) itemView.findViewById(R.id.sensorLongitud);
-            Log.d("ListSensorData.getView", String.valueOf(sensor.getLatitud()));
-            sensorLongitud.setText(String.valueOf(sensor.getLatitud()));
-
-            return itemView;
-
-
-
-
-
-        }
-
-        @Override
-        public int getCount() {
-            return listSensorData.size();
-        }
-
-        @Override
-        public Object getItem(int i) {
-
-            return listSensorData.get(i);
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-    }
-
     private class HttpRequestTask extends AsyncTask<Void, Void, String> {
 
         //private final ListSensorAdapter mAdapter;
@@ -318,7 +222,7 @@ public class ListSensorsActivity extends AppCompatActivity {
         protected String doInBackground(Void... params) {
 
             try {
-                final String url = "http://95.19.30.217:8080/ambientService/listSensors";
+                final String url = "http://jorlce.ddns.net:8080/ambientService/listSensors";
                 RestTemplate restTemplate = new RestTemplate();
                 restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
                 String responseString = restTemplate.getForObject(url, String.class);
@@ -352,76 +256,20 @@ public class ListSensorsActivity extends AppCompatActivity {
 
                 if ((mylistSensor != null) && !(mylistSensor.isEmpty())) {
                     Log.d("Prffffff",mylistSensor.get(0).getSensorlabel());
-                    //mAdapter.setData(listSensors);
 
-                    /*SensorData nuevoSensor = (SensorData) listSensors.get(0);
-                    listSensorsData.set(0,nuevoSensor);
-                    mRecAdapter.notifyItemInserted(0);*/
+
 
                      // specify an adapter (see also next example)
                     mAdapter = new MyRecyclerAdapter(getParent(), mylistSensor);
                     mRecyclerView.setAdapter(mAdapter);
 
-
-                    //Codigo para la listview
-                    //mAdapter.addItem(nuevoSensor);
-
-                    /*Iterator it = listSensors.iterator();
-                    while (it.hasNext()) {
-                        nuevoSensor = (SensorData) it.next();
-                        mAdapter.addItem(nuevoSensor);
-                    }*/
-
                 } else {
                     Log.e("ListSensorsActivity", "Lista Sensores Vacía");
                 }
 
-                //mAdapter.upDateEntries(entries);
 
-               /* Iterator it = listSensors.iterator();
-                SensorData nuevoSensor = null;
-
-
-
-                LinearLayout item = (LinearLayout)findViewById(R.id.rv);
-                int cont = 2;
-
-                while (it.hasNext()) {
-                    nuevoSensor = (SensorData) it.next();
-                    Log.d("ListFrameSensor", "Sensor: ");
-                    Log.d("ListFrameSensor", nuevoSensor.getSensorlabel());
-                    Log.d("ListFrameSensor", "Latitud: ");
-                    Log.d("ListFrameSensor", String.valueOf(nuevoSensor.getLatitud()));
-                    Log.d("ListFrameSensor", "Longtud: ");
-                    Log.d("ListFrameSensor", String.valueOf(nuevoSensor.getLongitud()));
-
-                    row = new TableRow(ll.getContext());
-                    lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
-                    row.setLayoutParams(lp);
-                    Button sensorBtn = new Button(ll.getContext());
-                    //String text2 = text1 + String.valueOf(i+1);
-                    sensorBtn.setText(nuevoSensor.getSensorlabel());
-
-                    sensorBtn.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent();
-                            intent.setClass(getParent(), ShowSensorActivity.class);
-                            //intent.putExtra("index", index);
-                            startActivity(intent);
-                        }
-                    });
-
-                    row.addView(sensorBtn);
-
-                    ll.addView(row, cont);
-                    cont++;
-                }
-
-                //return inflater.inflate(R.layout.list_frame_sensors, container, false);*/
             } else {
-                new CustomToast(getParent(), "Sensores no encontrados");
+                Toast.makeText(getApplicationContext(), "Sensores no encontrados",Toast.LENGTH_LONG).show();
             }
         }
 

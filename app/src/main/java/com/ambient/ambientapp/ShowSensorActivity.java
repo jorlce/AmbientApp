@@ -24,6 +24,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -367,7 +368,7 @@ public class ShowSensorActivity extends AppCompatActivity {
         protected void onPostExecute(String responseString) {
             Medidor unMedidor = null;
 
-            if (responseString.length() > 0) {
+            if ((responseString.length() > 0) && (!(responseString.equalsIgnoreCase("EMPTY")))){
                 Log.d("ListSensorsActivity", "Mapping the result");
                 Log.d("ListSensorsActivity",responseString);
                 unMedidor = jdao.findSensorMeasure(responseString);
@@ -381,12 +382,15 @@ public class ShowSensorActivity extends AppCompatActivity {
                     addRow(unMedidor);
 
                 } else {
-                    new CustomToast(getParent(), "Sensores no encontrados");
+                    Toast.makeText(getApplicationContext(), "Sensor sin Lecturas",Toast.LENGTH_LONG).show();
                     Log.e("ListSensorsActivity", "Error mapping response");
 
                 }
             } else {
-                new CustomToast(getParent(), "Sensores no encontrados");
+                if (this.dialog.isShowing()) { // if dialog box showing = true
+                    this.dialog.dismiss(); // dismiss it
+                }
+                Toast.makeText(getApplicationContext(), "Sensor sin Lecturas",Toast.LENGTH_LONG).show();
                 Log.e("ListSensorsActivity", "Valores Sensor Vacíos");
             }
         }

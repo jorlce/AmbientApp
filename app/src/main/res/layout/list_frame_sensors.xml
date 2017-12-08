@@ -9,52 +9,5 @@
     android:id="@+id/table_list_sensors"
     android:stretchColumns="*" >
 
-   <!-- <TableRow>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="5dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textAlignment="center"
-            android:text="" />
-    </TableRow>
-
-    <TableRow>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/cell_shape"
-            android:padding="5dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/white"
-            android:textAlignment="center"
-            android:text="@string/list_sensors" />
-
-    </TableRow>
-    <TableRow>
-        <Button
-            android:id="@+id/sensor_id1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/cell_shape"
-            android:padding="5dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/colorValues"
-            android:textAlignment="center"
-            android:text="SPA001" />
-    </TableRow>
-    <TableRow>
-        <Button
-            android:id="@+id/sensor_id2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/cell_shape"
-            android:padding="5dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/colorValues"
-            android:textAlignment="center"
-            android:text="SPA002" />
-    </TableRow>-->
 </TableLayout>
 </FrameLayout>
